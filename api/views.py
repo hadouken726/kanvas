@@ -51,7 +51,7 @@ class CourseView(APIView):
 
     def put(self, request, course_id):
         try:
-            Course.objects.get(id=course_id)
+            getted_course = Course.objects.get(id=course_id)
         except:
             return Response(data={"errors": "invalid course_id"}, status=status.HTTP_404_NOT_FOUND)
         serializer = RegistrationInCourseWriteSerializer(data=request.data)
