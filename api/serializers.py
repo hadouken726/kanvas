@@ -11,6 +11,11 @@ class UserSerializer(serializers.Serializer):
     is_staff = serializers.BooleanField()
 
 
+class UserInCourseSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    username = serializers.CharField()
+    
+
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(write_only=True)
     password = serializers.CharField(write_only=True)
@@ -29,4 +34,4 @@ class RegistrationInCourseWriteSerializer(serializers.Serializer):
 class RegistrationInCourseReadSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField()
-    users = UserSerializer(serializers.ListField(child=UserSerializer()), read_only=True, many=True)
+    users = UserInCourseSerializer(many=True)

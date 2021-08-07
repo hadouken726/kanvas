@@ -2,6 +2,7 @@ import re
 from rest_framework.views import APIView
 from api.serializers import (
     UserSerializer,
+    UserInCourseSerializer,
     LoginSerializer,
     CourseSerializer,
     RegistrationInCourseReadSerializer,
@@ -15,6 +16,10 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth.hashers import make_password
 from api.models import Course
 from django.shortcuts import get_object_or_404
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from api.permissions import Instructor
+
 
 class AccViews(APIView):
     def post(self, request):
@@ -42,6 +47,10 @@ class LoginView(APIView):
         return Response({'msg':'invalid user'}, status=status.HTTP_401_UNAUTHORIZED)
 
 class CourseView(APIView):
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated, Instructor]
+
+
     def post(self, request):
         serializer = CourseSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -63,5 +72,6 @@ class CourseView(APIView):
             return Response(data={'errors': 'invalid user_id list'}, status=status.HTTP_404_NOT_FOUND)
         unrepeated_fetch_list = list(set(fetch_list))
         getted_course.users.set(unrepeated_fetch_list)
-        return Response(data=RegistrationInCourseReadSerializer(instance=getted_course).data, status=status.HTTP_200_OK)
+        updated_course = RegistrationInCourseReadSerializer(instance=getted_course)
+        return Response(data=updated_course.data, status=status.HTTP_200_OK)
         
