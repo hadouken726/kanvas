@@ -17,8 +17,7 @@ from django.contrib.auth.hashers import make_password
 from api.models import Course
 from django.shortcuts import get_object_or_404
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
-from api.permissions import Instructor
+from api.permissions import IsInstructor, ReadOnlyCourses
 
 
 class AccViews(APIView):
@@ -47,8 +46,8 @@ class LoginView(APIView):
         return Response({'msg':'invalid user'}, status=status.HTTP_401_UNAUTHORIZED)
 
 class CourseView(APIView):
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAuthenticated, Instructor]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsInstructor | ReadOnlyCourses]
 
 
     def post(self, request):
@@ -71,7 +70,27 @@ class CourseView(APIView):
         except:
             return Response(data={'errors': 'invalid user_id list'}, status=status.HTTP_404_NOT_FOUND)
         unrepeated_fetch_list = list(set(fetch_list))
+        if any(user.is_staff or user.is_superuser for user in unrepeated_fetch_list):
+            return Response({'errors': 'Only students can be enrolled in the course.'}, status=status.HTTP_400_BAD_REQUEST)
         getted_course.users.set(unrepeated_fetch_list)
         updated_course = RegistrationInCourseReadSerializer(instance=getted_course)
         return Response(data=updated_course.data, status=status.HTTP_200_OK)
-        
+    
+
+    def get(self, request, course_id=None):
+        if course_id:
+            try:
+                course = Course.objects.get(id=course_id)
+            except Course.DoesNotExist:
+                return Response(data={'errors': 'invalid course_id'}, status=status.HTTP_404_NOT_FOUND)
+            course = RegistrationInCourseReadSerializer(instance=course)
+            return Response(data=course.data, status=status.HTTP_200_OK)
+        courses = Course.objects.all()
+        courses = RegistrationInCourseReadSerializer(instance=courses, many=True)
+        return Response(data=courses.data, status=status.HTTP_200_OK)
+    
+
+    def delete(self, request, course_id):
+        course_to_delete = get_object_or_404(Course, id=course_id)
+        course_to_delete.delete()
+        return Response(data='', status=status.HTTP_204_NO_CONTENT)
