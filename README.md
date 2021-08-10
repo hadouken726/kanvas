@@ -33,7 +33,7 @@ Rode o sistema em http://127.0.0.1:8000/ digitando:
 
 
 #### POST /api/accounts/
-Criação de um usuário: \n
+#### Criação de um usuário
 A API funcionará com autenticação baseada em token. Além disso, as permissões de usuários são definidas pela seguinte tabela:
 
 | Atributo | Instrutor | Facilitador | Estudante
@@ -63,7 +63,7 @@ A API funcionará com autenticação baseada em token. Além disso, as permissõ
 
     
 ####  POST /api/login/
-Fazendo login(qualquer tipo de usuário):
+#### Fazendo login(qualquer tipo de usuário):
 
 ```
 // REQUEST
@@ -89,7 +89,7 @@ Fazendo login(qualquer tipo de usuário):
 Course representa um curso dentro da plataforma Kanvas. Apenas um User com acesso de instrutor (ou seja is_superuser == True) pode criar novos cursos, matricular usuários nos cursos e excluir cursos.
 
 #### POST /api/courses/
-Criando um curso:
+#### Criando um curso:
 
 ```
 // REQUEST
@@ -111,7 +111,7 @@ Criando um curso:
 <br>
 
  #### PUT /api/courses/<int:course_id>/registrations/
-Atualizar lista de estudantes matriculados em um curso
+#### Atualizar lista de estudantes matriculados em um curso
 
 ```
 // REQUEST
@@ -147,7 +147,7 @@ Atualizar lista de estudantes matriculados em um curso
 <br>
 
 #### GET /api/courses/
-Obter lista de cursos e alunos matriculados(qualquer usuário pode acessar, inclusive que não está autenticado)
+#### Obter lista de cursos e alunos matriculados(qualquer usuário pode acessar, inclusive que não está autenticado)
 
 ```
 // RESPONSE STATUS -> HTTP 200
@@ -177,7 +177,7 @@ Obter lista de cursos e alunos matriculados(qualquer usuário pode acessar, incl
 <br>
 
 #### GET /api/courses/<int:course_id>/
-Obter um curso específico(livre acesso também)
+#### Obter um curso específico(livre acesso também)
 
 ```
 // RESPONSE STATUS -> HTTP 200
@@ -195,7 +195,7 @@ Obter um curso específico(livre acesso também)
 <br>
 
 #### DELETE /api/courses/<int:course_id>/
-Deletar um curso
+#### Deletar um curso
 
 ```
 // REQUEST
@@ -214,7 +214,7 @@ Submission representa uma submissão de uma atividade feita por um aluno.
 
 
 #### POST /api/activities/
-Criando uma atividade
+#### Criando uma atividade
 
 ```
 // REQUEST
@@ -238,7 +238,7 @@ Criando uma atividade
 <br>
 
 #### GET /api/activities/
-Listar atividades
+#### Listar atividades
 
 ```
 // REQUEST
@@ -297,7 +297,7 @@ Listar atividades
 <br>
 
 #### POST /api/activities/<int:activity_id>/submissions/
-Submeter uma atividade
+#### Submeter uma atividade
 
 ```
 // REQUEST
@@ -322,7 +322,7 @@ Submeter uma atividade
 <br>
 
 #### PUT /api/submissions/<int:submission_id>/
-Editar a nota de uma submissão
+#### Editar a nota de uma submissão
 
 ```
 // REQUEST
@@ -346,7 +346,7 @@ Editar a nota de uma submissão
 <br>
 
 #### GET /api/submissions/
-Listar submissões(somente usuários autenticados)
+#### Listar submissões(somente usuários autenticados)
 - Para um estudante, serão listadas somente as submissões realizadas por ele.
 ```
 //REQUEST
