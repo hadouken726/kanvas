@@ -28,10 +28,33 @@ class CourseSerializer(serializers.Serializer):
 
 
 class RegistrationInCourseWriteSerializer(serializers.Serializer):
-    users_ids = serializers.ListField(child=serializers.IntegerField(), write_only=True)
+    user_ids = serializers.ListField(child=serializers.IntegerField(), write_only=True)
 
 
 class RegistrationInCourseReadSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField()
     users = UserInCourseSerializer(many=True)
+
+
+class SubmissionReadSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    grade = serializers.IntegerField(read_only=True)
+    repo = serializers.CharField()
+    user_id = serializers.PrimaryKeyRelatedField(read_only=True)
+    activity_id = serializers.PrimaryKeyRelatedField(read_only=True)
+
+
+class ActivitySerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    title = serializers.CharField()
+    points = serializers.IntegerField()
+    submissions = SubmissionReadSerializer(many=True, read_only=True)
+
+
+class SubmissionGradeSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    grade = serializers.IntegerField()
+    repo = serializers.CharField(read_only=True)
+    user_id = serializers.PrimaryKeyRelatedField(read_only=True)
+    activity_id = serializers.PrimaryKeyRelatedField(read_only=True)
