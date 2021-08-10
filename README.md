@@ -33,7 +33,7 @@ Rode o sistema em http://127.0.0.1:8000/ digitando:
 
 
 #### POST /api/accounts/
-Criação de um usuário:
+Criação de um usuário: \n
 A API funcionará com autenticação baseada em token. Além disso, as permissões de usuários são definidas pela seguinte tabela:
 
 | Atributo | Instrutor | Facilitador | Estudante
