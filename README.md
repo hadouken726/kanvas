@@ -31,8 +31,10 @@ Rode o sistema em http://127.0.0.1:8000/ digitando:
 ### Rotas:
 <br>
 
+
 #### POST /api/accounts/
 Criação de um usuário:
+A API funcionará com autenticação baseada em token. Além disso, as permissões de usuários são definidas pela seguinte tabela:
 
 | Atributo | Instrutor | Facilitador | Estudante
 | ------ | ------ | ------ | ------
@@ -57,13 +59,10 @@ Criação de um usuário:
         "is_staff": false
       }
 ```
-
-
-    <br>
+<br>
 
     
 ####  POST /api/login/
-A API funcionará com autenticação baseada em token.
 Fazendo login(qualquer tipo de usuário):
 
 ```
@@ -85,6 +84,9 @@ Fazendo login(qualquer tipo de usuário):
 
 
 <br>
+
+### Cursos
+Course representa um curso dentro da plataforma Kanvas. Apenas um User com acesso de instrutor (ou seja is_superuser == True) pode criar novos cursos, matricular usuários nos cursos e excluir cursos.
 
 #### POST /api/courses/
 Criando um curso:
@@ -204,6 +206,12 @@ Deletar um curso
 `// RESPONSE STATUS -> HTTP 204 NO CONTENT`
 
 <br>
+
+### Atividades e submissões:
+Ativity representa uma atividade cadastrada no sistema pelos facilitadores ou instrutores para que os alunos possam fazer suas submissões.
+
+Submission representa uma submissão de uma atividade feita por um aluno.
+
 
 #### POST /api/activities/
 Criando uma atividade
